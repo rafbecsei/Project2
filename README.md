@@ -1,2 +1,2 @@
-# Project2
-Projeto do Banco QuemPoupaTem
+# Project2 
+Desenvolvimento do sistema bancário do Banco QuemPoupaTem.
