@@ -40,77 +40,80 @@ int novousuario(ListaDeUsuarios *lu) {
     return 0;
 }
 
-// int apagarusuario(ListaDeUsuarios *lu){
-//     printf("\nApagar Usuario\n");
-//     if(lu->qtd == 0){
-//         printf("Seu CPF nao consta em nosso sistema, ");
-//     }
-//     int procuracpf(ListaDeUsuarios lu, long cpf){
-//     int posicao = 0;
-//     for(posicao; posicao < 3; posicao++){
-//         if(lu.u[posicao].cpf == cpf){
-//             return posicao;
-//         }
-//     }
-//     return -1;    
-//     }
-// }
-
 int apagarusuario(ListaDeUsuarios *lu){
     printf("\nApagar Cliente\n");
+    long cpf;
     printf("Insira seu CPF: ");
     scanf("%ld", &cpf);
     int cpfusuario = procuracpf(*lu, cpf);
     if (cpfusuario == -1){
-        printf("Seu CPF nao consta em nosso sistema");
+        printf("Seu CPF nao consta em nosso sistema\n");
+        return 0;
     }
     int confirmacao;
-    else if(lu->u[lu->qtd].cpf == cpf){
-        printf("Confirme para prosseguir com a acao (Sim( 0 ) / Nao ( 1 )): ");
-        scanf("%c", &confirmacao);
-        if(confirmacao == 0){
-            printf("Cliente deletado com sucesso")
-            for(int i = lu->u[lu->qtd].cpf; lu->qtd < 0 ; i++){
-            lu->u[i] = lu->u[i + 1];
-            }
-            lu->qtd--;
-        } else {
-            printf("Cliente nao deletado")
-        }
+    printf("Confirme para prosseguir com a acao (Sim( 0 ) / Nao ( 1 )): ");
+    scanf("%d", &confirmacao);
+    if(confirmacao == 0){
+      for(int i = cpfusuario; i < lu->qtd ; i++){
+      lu->u[i] = lu->u[i + 1];
+      }
+    lu->qtd--;
+    } else {
+      printf("Cliente nao deletado");
+      return 0;
     }
+    printf("Cliente deletado com sucesso");
     return 0;
 }
 
-// int deletarLembrete(ListaDeLembretes *ll){
-//     printf("\nDeletar Lembrete\n");
-//     if(ll->qtd == 0){
-//         printf("Nao ha lembretes, crie um");
-//     }
-//     int numerodolembrete;
-//     printf("\nNumero do lembrete: ");
-//     scanf("%d", &numerodolembrete);
-//     if(numerodolembrete < 1 || numerodolembrete > ll->qtd){
-//         printf("Esse lembrete nao existe");
-//     }
-//     else{
-//         for(int i = numerodolembrete; i < ll->qtd; i++){
-//             ll->l[i] = ll->l[i + 1];
-//         }
-//         ll->qtd--;
-//         printf("\nLembrete %d deletado", numerodolembrete);
-//     }
-//     return 0;
-// }
-    
+int listarusuarios(ListaDeUsuarios lu) {
+    for(int i = 0; i < lu.qtd ; i++){
+        printf("\nCLIENTE");
+        printf("\nNome. %s", lu.u[i].nome);
+        printf("\nCPF. %ld", lu.u[i].cpf);
+        if(lu.u[i].tipoconta == 0){
+          printf("\nTipo de Conta. Comum");
+        }
+        else if(lu.u[i].tipoconta == 1){
+          printf("\nTipo de Conta. Plus");
+        }
+        printf("\nValor. %.2f\n", lu.u[i].valor);
+    }
+}
 
-//   printf("\nCLIENTE");
-//   printf("\nNome. %s", lu->u[lu->qtd].nome);
-//   printf("\nCPF. %ld", lu->u[lu->qtd].cpf);
-//   printf("\nTC. %d", lu->u[lu->qtd].tipoconta);
-//   printf("\nValor. %.2f", lu->u[lu->qtd].valor);
-//   printf("\nSenha. %d\n", lu->u[lu->qtd].senha);
-  
+int debito(ListaDeUsuarios *lu){
+    printf("\nDebito\n");
+    long cpf;
+    printf("Insira seu CPF: ");
+    scanf("%ld", &cpf);
+    int cpfusuario = procuracpf(*lu, cpf);
+    if (cpfusuario == -1){
+        printf("Seu CPF nao consta em nosso sistema\n");
+        return 0;
+    }
+    int senha;
+    printf("Insira sua senha: ");
+    scanf("%d", &senha);
 
+    if (lu->u[cpfusuario].senha == senha) {
+        float valor;
+        printf("Insira o valor: ");
+        scanf("%f", &valor);
+        if(lu->u[cpfusuario].tipoconta == 0){
+            float taxacomum = valor * 1.05;
+            lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxacomum; 
+        }
+        else if(lu->u[cpfusuario].tipoconta == 1){
+            float taxaplus = valor * 1.03;
+            lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxaplus;
+        }
+    }
+    else{
+        printf("Senha incorreta");
+        return 0;
+    }
+
+}
 
 void printMenu(){
     printf("\n======= Menu =======\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n====================\n");

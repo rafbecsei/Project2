@@ -14,5 +14,10 @@ typedef struct{
 
 int novousuario(ListaDeUsuarios *lu);
 int apagarusuario(ListaDeUsuarios *lu);
+int listarusuarios(ListaDeUsuarios lu);
+int debito(ListaDeUsuarios *lu);
+int deposito();
+// int extrato();
+int transferencia();
 
 void printMenu();
