@@ -13,7 +13,7 @@ int procuracpf(ListaDeUsuarios lu, long cpf){
 }
 
 int novousuario(ListaDeUsuarios *lu) {
-    printf("\nNovo Cliente\n");
+    printf("\n- Novo Cliente\n");
     int c;
     while ((c = getchar()) != '\n' && c != EOF) { }
     printf("Nome: ");
@@ -41,7 +41,7 @@ int novousuario(ListaDeUsuarios *lu) {
 }
 
 int apagarusuario(ListaDeUsuarios *lu){
-    printf("\nApagar Cliente\n");
+    printf("\n- Apagar Cliente\n");
     long cpf;
     printf("Insira seu CPF: ");
     scanf("%ld", &cpf);
@@ -68,7 +68,7 @@ int apagarusuario(ListaDeUsuarios *lu){
 
 int listarusuarios(ListaDeUsuarios lu) {
     for(int i = 0; i < lu.qtd ; i++){
-        printf("\n===== CLIENTE =====");
+        printf("\n----- CLIENTE -----");
         printf("\nNome: %s", lu.u[i].nome);
         printf("\nCPF: %ld", lu.u[i].cpf);
         if(lu.u[i].tipoconta == 0){
@@ -78,12 +78,12 @@ int listarusuarios(ListaDeUsuarios lu) {
           printf("\nTipo de Conta: Plus");
         }
         printf("\nValor: R$ %.2f\n", lu.u[i].valor);
-        printf("===================\n");
+        printf("-------------------\n");
     }
 }
 
 int debito(ListaDeUsuarios *lu){
-    printf("\nDebito\n");
+    printf("\n- Debito\n");
     long cpf;
     printf("Insira seu CPF: ");
     scanf("%ld", &cpf);
@@ -121,6 +121,25 @@ int debito(ListaDeUsuarios *lu){
 
 }
 
+int deposito(ListaDeUsuarios *lu){
+  printf("\n- Deposito\n");
+  long cpf;
+  printf("Insira seu CPF: ");
+  scanf("%ld", &cpf);
+  int cpfusuario = procuracpf(*lu, cpf);
+  if (cpfusuario == -1){
+      printf("Seu CPF nao consta em nosso sistema\n");
+      return 0;
+  }  
+  else{
+    float valor;
+    printf("Insira o valor: R$ ");
+    scanf("%f", &valor);
+    lu->u[cpfusuario].valor = lu->u[cpfusuario].valor + valor;
+    printf("\nR$ %.2f foram depositados na sua conta\n", valor);
+  }
+}
+
 void printMenu(){
-    printf("\n======= Menu =======\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n====================\n");
+  printf("\n------- Menu -------\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n--------------------\n");
 }

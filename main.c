@@ -29,7 +29,7 @@ int main(){
                 debito(&lu);
                 break;
             case 5:
-                //deposito();
+                deposito(&lu);
                 break;
             case 6:
                 //extrato();
