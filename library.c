@@ -13,7 +13,7 @@ int procuracpf(ListaDeUsuarios lu, long cpf){
 }
 
 int novousuario(ListaDeUsuarios *lu) {
-    printf("\nNovo Usuario\n");
+    printf("\nNovo Cliente\n");
     int c;
     while ((c = getchar()) != '\n' && c != EOF) { }
     printf("Nome: ");
@@ -36,18 +36,90 @@ int novousuario(ListaDeUsuarios *lu) {
     scanf("%f", &lu->u[lu->qtd].valor);
     printf("PIN: ");
     scanf("%d", &lu->u[lu->qtd].senha);
-    
-
-  printf("\nCLIENTE");
-  printf("\nNome. %s", lu->u[lu->qtd].nome);
-  printf("\nCPF. %ld", lu->u[lu->qtd].cpf);
-  printf("\nTC. %d", lu->u[lu->qtd].tipoconta);
-  printf("\nValor. %.2f", lu->u[lu->qtd].valor);
-  printf("\nSenha. %d\n", lu->u[lu->qtd].senha);
-  lu->qtd = lu->qtd + 1;
-  return 0;
+    lu->qtd = lu->qtd + 1;
+    return 0;
 }
 
+int apagarusuario(ListaDeUsuarios *lu){
+    printf("\nApagar Cliente\n");
+    long cpf;
+    printf("Insira seu CPF: ");
+    scanf("%ld", &cpf);
+    int cpfusuario = procuracpf(*lu, cpf);
+    if (cpfusuario == -1){
+        printf("Seu CPF nao consta em nosso sistema\n");
+        return 0;
+    }
+    int confirmacao;
+    printf("Confirme para prosseguir com a acao (Sim( 0 ) / Nao ( 1 )): ");
+    scanf("%d", &confirmacao);
+    if(confirmacao == 0){
+      for(int i = cpfusuario; i < lu->qtd ; i++){
+      lu->u[i] = lu->u[i + 1];
+      }
+    lu->qtd--;
+    } else {
+      printf("Cliente nao deletado");
+      return 0;
+    }
+    printf("Cliente deletado com sucesso");
+    return 0;
+}
+
+int listarusuarios(ListaDeUsuarios lu) {
+    for(int i = 0; i < lu.qtd ; i++){
+        printf("\n===== CLIENTE =====");
+        printf("\nNome: %s", lu.u[i].nome);
+        printf("\nCPF: %ld", lu.u[i].cpf);
+        if(lu.u[i].tipoconta == 0){
+          printf("\nTipo de Conta: Comum");
+        }
+        else if(lu.u[i].tipoconta == 1){
+          printf("\nTipo de Conta: Plus");
+        }
+        printf("\nValor: R$ %.2f\n", lu.u[i].valor);
+        printf("===================\n");
+    }
+}
+
+int debito(ListaDeUsuarios *lu){
+    printf("\nDebito\n");
+    long cpf;
+    printf("Insira seu CPF: ");
+    scanf("%ld", &cpf);
+    int cpfusuario = procuracpf(*lu, cpf);
+    if (cpfusuario == -1){
+        printf("Seu CPF nao consta em nosso sistema\n");
+        return 0;
+    }
+    int senha;
+    printf("Insira sua senha: ");
+    scanf("%d", &senha);
+
+    if (lu->u[cpfusuario].senha == senha) {
+        float valor;
+        printf("Insira o valor: R$ ");
+        scanf("%f", &valor);
+        if(lu->u[cpfusuario].tipoconta == 0 && lu->u[cpfusuario].valor > -1000){
+            float taxacomum = valor * 1.05;
+            lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxacomum; 
+            printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxacomum);
+        }
+        else if(lu->u[cpfusuario].tipoconta == 1 && lu->u[cpfusuario].valor > -5000){
+            float taxaplus = valor * 1.03;
+            lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxaplus;
+            printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxaplus);
+        }
+        else{
+          printf("\nSaldo insuficiente, excedendo o limite de seu tipo de conta \n");
+        }
+    }
+    else{
+        printf("Senha incorreta");
+        return 0;
+    }
+
+}
 
 void printMenu(){
     printf("\n======= Menu =======\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n====================\n");

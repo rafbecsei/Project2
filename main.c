@@ -20,22 +20,22 @@ int main(){
                 novousuario(&lu);
                 break;
             case 2:
-
+                apagarusuario(&lu);
                 break;
             case 3:
-
+                listarusuarios(lu);
                 break;
             case 4:
-
+                debito(&lu);
                 break;
             case 5:
-
+                //deposito();
                 break;
             case 6:
-
+                //extrato();
                 break;
             case 7:
-
+                //transferencia();
                 break;
             default:
                 printf("Opcao nao existe\n");

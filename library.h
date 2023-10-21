@@ -1,4 +1,4 @@
-ypedef struct usuario{
+typedef struct usuario{
     char nome[100];
     long cpf;
     int tipoconta;
@@ -11,7 +11,13 @@ typedef struct{
     int qtd;
 } ListaDeUsuarios;
 
+
 int novousuario(ListaDeUsuarios *lu);
 int apagarusuario(ListaDeUsuarios *lu);
+int listarusuarios(ListaDeUsuarios lu);
+int debito(ListaDeUsuarios *lu);
+int deposito();
+// int extrato();
+int transferencia();
 
 void printMenu();
