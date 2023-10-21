@@ -69,15 +69,15 @@ int apagarusuario(ListaDeUsuarios *lu){
 int listarusuarios(ListaDeUsuarios lu) {
     for(int i = 0; i < lu.qtd ; i++){
         printf("\nCLIENTE");
-        printf("\nNome. %s", lu.u[i].nome);
-        printf("\nCPF. %ld", lu.u[i].cpf);
+        printf("\nNome: %s", lu.u[i].nome);
+        printf("\nCPF: %ld", lu.u[i].cpf);
         if(lu.u[i].tipoconta == 0){
-          printf("\nTipo de Conta. Comum");
+          printf("\nTipo de Conta: Comum");
         }
         else if(lu.u[i].tipoconta == 1){
-          printf("\nTipo de Conta. Plus");
+          printf("\nTipo de Conta: Plus");
         }
-        printf("\nValor. %.2f\n", lu.u[i].valor);
+        printf("\nValor: R$ %.2f\n", lu.u[i].valor);
     }
 }
 
@@ -97,15 +97,17 @@ int debito(ListaDeUsuarios *lu){
 
     if (lu->u[cpfusuario].senha == senha) {
         float valor;
-        printf("Insira o valor: ");
+        printf("Insira o valor: R$ ");
         scanf("%f", &valor);
         if(lu->u[cpfusuario].tipoconta == 0){
             float taxacomum = valor * 1.05;
             lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxacomum; 
+            printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxacomum);
         }
         else if(lu->u[cpfusuario].tipoconta == 1){
             float taxaplus = valor * 1.03;
             lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxaplus;
+            printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxaplus);
         }
     }
     else{
