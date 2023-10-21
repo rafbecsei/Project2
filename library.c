@@ -212,6 +212,24 @@ int transferencia(ListaDeUsuarios *lu){
   }
 }
 
+int extrato(ListaDeUsuarios lu) {
+  printf("\n- Extrato\n");
+  long cpf;
+  printf("Insira seu CPF: ");
+  scanf("%ld", &cpf);
+  int cpfusuario = procuracpf(lu, cpf);
+  if (cpfusuario == -1) {
+    printf("Seu CPF nao consta em nosso sistema\n");
+    return 0;
+  }
+  int senha;
+  printf("Insira seu PIN: ");
+  scanf("%d", &senha);
+  if (lu->u[cpfusuario].senha == senha) {
+    //////////////////////////////////////////////
+  }
+}
+
 void printMenu(){
   printf("\n------- Menu -------\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n--------------------\n");
 }

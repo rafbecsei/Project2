@@ -32,7 +32,7 @@ int main(){
                 deposito(&lu);
                 break;
             case 6:
-                //extrato();
+                extrato(lu);
                 break;
             case 7:
                 transferencia(&lu);
