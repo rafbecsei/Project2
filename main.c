@@ -35,7 +35,7 @@ int main(){
                 //extrato();
                 break;
             case 7:
-                //transferencia();
+                transferencia(&lu);
                 break;
             default:
                 printf("Opcao nao existe\n");

@@ -18,6 +18,6 @@ int listarusuarios(ListaDeUsuarios lu);
 int debito(ListaDeUsuarios *lu);
 int deposito(ListaDeUsuarios *lu);
 // int extrato();
-// int transferencia();
+int transferencia();
 
 void printMenu();
