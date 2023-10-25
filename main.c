@@ -29,13 +29,13 @@ int main(){
                 debito(&lu);
                 break;
             case 5:
-                //deposito();
+                deposito(&lu);
                 break;
             case 6:
                 //extrato();
                 break;
             case 7:
-                //transferencia();
+                transferencia(&lu);
                 break;
             default:
                 printf("Opcao nao existe\n");

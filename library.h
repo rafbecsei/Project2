@@ -16,7 +16,7 @@ int novousuario(ListaDeUsuarios *lu);
 int apagarusuario(ListaDeUsuarios *lu);
 int listarusuarios(ListaDeUsuarios lu);
 int debito(ListaDeUsuarios *lu);
-int deposito();
+int deposito(ListaDeUsuarios *lu);
 // int extrato();
 int transferencia();
 

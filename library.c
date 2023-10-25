@@ -13,7 +13,7 @@ int procuracpf(ListaDeUsuarios lu, long cpf){
 }
 
 int novousuario(ListaDeUsuarios *lu) {
-    printf("\nNovo Cliente\n");
+    printf("\n- Novo Cliente\n");
     int c;
     while ((c = getchar()) != '\n' && c != EOF) { }
     printf("Nome: ");
@@ -41,7 +41,7 @@ int novousuario(ListaDeUsuarios *lu) {
 }
 
 int apagarusuario(ListaDeUsuarios *lu){
-    printf("\nApagar Cliente\n");
+    printf("\n- Apagar Cliente\n");
     long cpf;
     printf("Insira seu CPF: ");
     scanf("%ld", &cpf);
@@ -68,7 +68,7 @@ int apagarusuario(ListaDeUsuarios *lu){
 
 int listarusuarios(ListaDeUsuarios lu) {
     for(int i = 0; i < lu.qtd ; i++){
-        printf("\n===== CLIENTE =====");
+        printf("\n----- CLIENTE -----");
         printf("\nNome: %s", lu.u[i].nome);
         printf("\nCPF: %ld", lu.u[i].cpf);
         if(lu.u[i].tipoconta == 0){
@@ -78,12 +78,12 @@ int listarusuarios(ListaDeUsuarios lu) {
           printf("\nTipo de Conta: Plus");
         }
         printf("\nValor: R$ %.2f\n", lu.u[i].valor);
-        printf("===================\n");
+        printf("-------------------\n");
     }
 }
 
 int debito(ListaDeUsuarios *lu){
-    printf("\nDebito\n");
+    printf("\n- Debito\n");
     long cpf;
     printf("Insira seu CPF: ");
     scanf("%ld", &cpf);
@@ -93,7 +93,7 @@ int debito(ListaDeUsuarios *lu){
         return 0;
     }
     int senha;
-    printf("Insira sua senha: ");
+    printf("Insira seu PIN: ");
     scanf("%d", &senha);
 
     if (lu->u[cpfusuario].senha == senha) {
@@ -102,25 +102,116 @@ int debito(ListaDeUsuarios *lu){
         scanf("%f", &valor);
         if(lu->u[cpfusuario].tipoconta == 0 && lu->u[cpfusuario].valor > -1000){
             float taxacomum = valor * 1.05;
-            lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxacomum; 
+            if (lu->u[cpfusuario].valor - taxacomum < -1000){
+              printf("\nNao sera possivel realizar a transacao, valor final excede limite do tipo da conta\n");
+              return 0;
+            }
+            else {
+              lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxacomum; 
             printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxacomum);
+            }
         }
         else if(lu->u[cpfusuario].tipoconta == 1 && lu->u[cpfusuario].valor > -5000){
             float taxaplus = valor * 1.03;
+            if (lu->u[cpfusuario].valor - taxaplus < -5000){
+              printf("\nNao sera possivel realizar a transacao, valor final excede limite do tipo da conta\n");
+              return 0;
+            
+          }
+          else {
             lu->u[cpfusuario].valor = lu->u[cpfusuario].valor - taxaplus;
             printf("\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n", taxaplus);
+          }
         }
         else{
           printf("\nSaldo insuficiente, excedendo o limite de seu tipo de conta \n");
         }
     }
     else{
-        printf("Senha incorreta");
+        printf("PIN incorreto\n ");
         return 0;
     }
 
 }
 
+int deposito(ListaDeUsuarios *lu){
+  printf("\n- Deposito\n");
+  long cpf;
+  printf("Insira seu CPF: ");
+  scanf("%ld", &cpf);
+  int cpfusuario = procuracpf(*lu, cpf);
+  if (cpfusuario == -1){
+      printf("Seu CPF nao consta em nosso sistema\n");
+      return 0;
+  }  
+  else{
+    float valor;
+    printf("Insira o valor: R$ ");
+    scanf("%f", &valor);
+    lu->u[cpfusuario].valor = lu->u[cpfusuario].valor + valor;
+    printf("\nR$ %.2f foram depositados na sua conta\n", valor);
+  }
+}
+
+int transferencia(ListaDeUsuarios *lu){
+  printf("\n- Transferencia\n");
+  long cpfremetente;
+  printf("Insira seu CPF: ");
+  scanf("%ld", &cpfremetente);
+  int cpfremet = procuracpf(*lu, cpfremetente);
+  if (cpfremet == -1){
+    printf("Seu CPF nao consta em nosso sistema\n");
+    return 0;
+  }
+  int senha;
+  printf("Insira seu PIN: ");
+  scanf("%d", &senha);
+  if (lu->u[cpfremet].senha == senha) {
+    long cpfdestinatario;
+    printf("Insira o CPF do destinatário: ");
+    scanf("%ld", &cpfdestinatario);
+    int cpfdest = procuracpf(*lu, cpfdestinatario);
+    if (cpfdest == -1){
+      printf("Esse CPF nao consta em nosso sistema\n");
+      return 0;
+    }
+    float valor;
+    printf("Insira o valor: R$ ");
+    scanf("%f", &valor);
+    if(lu->u[cpfremet].tipoconta == 0 && lu->u[cpfremet].valor > -1000){
+        float taxacomum = valor * 1.05;
+        if (lu->u[cpfremet].valor - taxacomum < -1000){
+          printf("\nNao sera possivel realizar a transacao, valor final excede limite do tipo da conta\n");
+          return 0;
+        }
+        else {
+          lu->u[cpfremet].valor = lu->u[cpfremet].valor - taxacomum;
+        lu->u[cpfdest].valor = lu->u[cpfdest].valor + valor;
+        printf("\nR$ %.2f foram transferidos de sua conta para %s (inclui taxa de serviço)\n", taxacomum, lu->u[cpfdest].nome);
+        }
+    }
+    else if(lu->u[cpfremet].tipoconta == 1 && lu->u[cpfremet].valor > -5000){
+        float taxaplus = valor * 1.03;
+        if (lu->u[cpfremet].valor - taxaplus < -5000){
+          printf("\nNao sera possivel realizar a transacao, valor final excede limite do tipo da conta\n");
+          return 0;
+        }
+      else {
+        lu->u[cpfremet].valor = lu->u[cpfremet].valor - taxaplus;
+        lu->u[cpfdest].valor = lu->u[cpfdest].valor + valor;
+        printf("\nR$ %.2f foram transferidos de sua conta para %s (inclui taxa de serviço)\n", taxaplus, lu->u[cpfdest].nome);
+      }
+    }
+    else{
+      printf("\nSaldo insuficiente, excedendo o limite de seu tipo de conta \n");
+    }
+  }
+  else{
+    printf("PIN incorreto\n ");
+    return 0;
+  }
+}
+
 void printMenu(){
-    printf("\n======= Menu =======\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n====================\n");
+  printf("\n------- Menu -------\n1. Novo Cliente\n2. Apaga Cliente\n3. Listar Clientes\n4. Débito\n5. Depósito\n6. Extrato\n7. Transferência\n0. Sair\n--------------------\n");
 }
