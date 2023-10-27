@@ -3,17 +3,21 @@
 #include <stdio.h>
 
 int main() {
+  int cod;
+  char arquivo[] = "ListaDeUsuarios";
   ListaDeUsuarios lu;
-  
+  cod = carregarLista(&lu, arquivo);
+  if (cod == 1)
+    lu.qtd = 0;
+
   int opcao;
   do {
     printMenu();
-    printf("Escolha uma opcao: ");
+    printf("Escolha uma opção: ");
     scanf("%d", &opcao);
 
     switch (opcao) {
     case 0:
-
       break;
     case 1:
       novousuario(&lu);
@@ -37,8 +41,12 @@ int main() {
       transferencia(&lu);
       break;
     default:
-      printf("Opcao nao existe\n");
+      printf("Opção não existe\n");
     }
 
   } while (opcao != 0);
+  cod = salvarLista(lu, arquivo);
+  if (cod != 0) {
+    printf("Erro ao salvar clientes");
+  }
 }
