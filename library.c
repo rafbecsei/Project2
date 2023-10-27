@@ -4,7 +4,7 @@
 
 int buscadados(ListaDeUsuarios lu, long cpf) {
   int posicao = 0;
-  for (posicao; posicao < 3; posicao++) {
+  for (posicao; posicao < 1000; posicao++) {
     if (lu.u[posicao].cpf == cpf) {
       return posicao;
     }
@@ -52,7 +52,7 @@ int apagarusuario(ListaDeUsuarios *lu) {
     return 0;
   }
   int confirmacao;
-  printf("Confirme para prosseguir com a acao (Sim( 0 ) / Nao ( 1 )): ");
+  printf("Confirme para prosseguir com a ação (Sim( 0 ) / Nao ( 1 )): ");
   scanf("%d", &confirmacao);
   if (confirmacao == 0) {
     for (int i = dadosusuario; i < lu->qtd; i++) {
@@ -83,7 +83,7 @@ int listarusuarios(ListaDeUsuarios lu) {
 }
 
 int debito(ListaDeUsuarios *lu) {
-  printf("\n- Debito\n");
+  printf("\n- Débito\n");
   long cpf;
   printf("Insira seu CPF: ");
   scanf("%ld", &cpf);
@@ -103,14 +103,14 @@ int debito(ListaDeUsuarios *lu) {
     if (lu->u[dadosusuario].tipoconta == 0) {
       float taxacomum = valor * 1.05;
       if (lu->u[dadosusuario].valor - taxacomum < -1000) {
-        printf("\nNao sera possivel realizar a transacao, valor final excede o "
+        printf("\nNão será possível realizar a transação, valor final excede o "
                "limite do tipo da conta\n");
         return 0;
       } else {
         lu->u[dadosusuario].valor = lu->u[dadosusuario].valor - taxacomum;
         sprintf(lu->u[dadosusuario].e[lu->u[dadosusuario].qtd].historico,
-                "Débito | Valor: R$ %.2f | Taxa Comum: 5% | Total: R$ %.2f\n", valor,
-                taxacomum);
+                "Débito | Valor: R$ %.2f | Taxa Comum | Total: R$ %.2f\n",
+                valor, taxacomum);
         lu->u[dadosusuario].qtd = lu->u[dadosusuario].qtd + 1;
         printf(
             "\nR$ %.2f foram debitados de sua conta (inclui taxa de serviço)\n",
@@ -119,14 +119,14 @@ int debito(ListaDeUsuarios *lu) {
     } else if (lu->u[dadosusuario].tipoconta == 1) {
       float taxaplus = valor * 1.03;
       if (lu->u[dadosusuario].valor - taxaplus < -5000) {
-        printf("\nNao sera possivel realizar a transacao, valor final excede "
+        printf("\nNão será possível realizar a transação, valor final excede "
                "limite do tipo da conta\n");
         return 0;
 
       } else {
         lu->u[dadosusuario].valor = lu->u[dadosusuario].valor - taxaplus;
         sprintf(lu->u[dadosusuario].e[lu->u[dadosusuario].qtd].historico,
-                "Débito | Valor: R$ %.2f | Taxa Comum: 3% | Total: R$ %.2f\n", valor,
+                "Débito | Valor: R$ %.2f | Taxa Plus | Total: R$ %.2f\n", valor,
                 taxaplus);
         lu->u[dadosusuario].qtd = lu->u[dadosusuario].qtd + 1;
         printf(
@@ -141,11 +141,10 @@ int debito(ListaDeUsuarios *lu) {
     printf("PIN incorreto\n ");
     return 0;
   }
-  return 0;
 }
 
 int deposito(ListaDeUsuarios *lu) {
-  printf("\n- Deposito\n");
+  printf("\n- Depósito\n");
   long cpf;
   printf("Insira seu CPF: ");
   scanf("%ld", &cpf);
@@ -159,14 +158,14 @@ int deposito(ListaDeUsuarios *lu) {
     scanf("%f", &valor);
     lu->u[dadosusuario].valor = lu->u[dadosusuario].valor + valor;
     sprintf(lu->u[dadosusuario].e[lu->u[dadosusuario].qtd].historico,
-            "Deposito | Valor: R$ %.2f | Total: R$ %.2f\n", valor, valor);
+            "Depósito | Valor: R$ %.2f | Total: R$ %.2f\n", valor, valor);
     lu->u[dadosusuario].qtd = lu->u[dadosusuario].qtd + 1;
     printf("\nR$ %.2f foram depositados em sua conta\n", valor);
   }
 }
 
 int transferencia(ListaDeUsuarios *lu) {
-  printf("\n- Transferencia\n");
+  printf("\n- Transferência\n");
   long cpfremetente;
   printf("Insira seu CPF: ");
   scanf("%ld", &cpfremetente);
@@ -193,19 +192,19 @@ int transferencia(ListaDeUsuarios *lu) {
     if (lu->u[cpfremet].tipoconta == 0) {
       float taxacomum = valor * 1.05;
       if (lu->u[cpfremet].valor - taxacomum <= -1000) {
-        printf("\nNao sera possivel realizar a transacao, valor final excede o "
+        printf("\nNão será possível realizar a transação, valor final excede o "
                "limite do tipo da conta\n");
         return 0;
       } else {
         lu->u[cpfremet].valor = lu->u[cpfremet].valor - taxacomum;
         lu->u[cpfdest].valor = lu->u[cpfdest].valor + valor;
         sprintf(lu->u[cpfremet].e[lu->u[cpfremet].qtd].historico,
-                "Transferencia para %s | Valor: R$ %.2f | Taxa Comum: 3% | Total: "
+                "Transferência para %s | Valor: R$ %.2f | Taxa Comum | Total: "
                 "R$ %.2f\n",
                 lu->u[cpfdest].nome, valor, taxacomum);
         lu->u[cpfremet].qtd = lu->u[cpfremet].qtd + 1;
         sprintf(lu->u[cpfdest].e[lu->u[cpfdest].qtd].historico,
-                "Transferencia de %s | Valor: R$ %.2f | Total: R$ %.2f\n",
+                "Transferência de %s | Valor: R$ %.2f | Total: R$ %.2f\n",
                 lu->u[cpfremet].nome, valor, valor);
         lu->u[cpfdest].qtd = lu->u[cpfdest].qtd + 1;
         printf("\nR$ %.2f foram transferidos de sua conta para %s (inclui taxa "
@@ -215,14 +214,14 @@ int transferencia(ListaDeUsuarios *lu) {
     } else if (lu->u[cpfremet].tipoconta == 1) {
       float taxaplus = valor * 1.03;
       if (lu->u[cpfremet].valor - taxaplus <= -5000) {
-        printf("\nNao sera possivel realizar a transacao, valor final excede o "
+        printf("\nNão será possível realizar a transação, valor final excede o "
                "limite do tipo da conta\n");
         return 0;
       } else {
         lu->u[cpfremet].valor = lu->u[cpfremet].valor - taxaplus;
         lu->u[cpfdest].valor = lu->u[cpfdest].valor + valor;
         sprintf(lu->u[cpfremet].e[lu->u[cpfremet].qtd].historico,
-                "Transferência para %s | Valor: R$ %.2f | Taxa Comum: 5% | Total: "
+                "Transferência para %s | Valor: R$ %.2f | Taxa Plus | Total: "
                 "R$ %.2f\n",
                 lu->u[cpfdest].nome, valor, taxaplus);
         lu->u[cpfremet].qtd = lu->u[cpfremet].qtd + 1;
@@ -242,7 +241,6 @@ int transferencia(ListaDeUsuarios *lu) {
     printf("PIN incorreto\n ");
     return 0;
   }
-  return 0;
 }
 
 int extrato(ListaDeUsuarios *lu) {
@@ -259,9 +257,11 @@ int extrato(ListaDeUsuarios *lu) {
   printf("Insira seu PIN: ");
   scanf("%d", &senha);
   if (lu->u[dadosusuario].senha == senha) {
-    for(int i = 0; i <= lu->u[dadosusuario].qtd; i++) {
-      printf("\n%s", lu->u[dadosusuario].e[i].historico);
+    FILE *f = fopen("extrato.txt", "w");
+    for (int i = 0; i <= lu->u[dadosusuario].qtd; i++) {
+      fprintf(f, "\n%s", lu->u[dadosusuario].e[i].historico);
     }
+    fclose(f);
   } else {
     printf("PIN incorreto\n ");
     return 0;
@@ -275,3 +275,21 @@ void printMenu() {
          "Sair\n--------------------\n");
 }
 
+int salvarLista(ListaDeUsuarios lu, char arquivo[]) {
+  FILE *f = fopen(arquivo, "wb");
+  if (f == NULL) {
+    return 1;
+  }
+  fwrite(&lu, sizeof(ListaDeUsuarios), 1, f);
+  fclose(f);
+  return 0;
+}
+int carregarLista(ListaDeUsuarios *lu, char arquivo[]) {
+  FILE *f = fopen(arquivo, "rb");
+  if (f == NULL) {
+    return 1;
+  }
+  fread(lu, sizeof(ListaDeUsuarios), 1, f);
+  fclose(f);
+  return 0;
+}

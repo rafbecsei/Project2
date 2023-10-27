@@ -13,7 +13,7 @@ typedef struct usuario {
 } Usuario;
 
 typedef struct {
-  Usuario u[3];
+  Usuario u[1000];
   int qtd;
 } ListaDeUsuarios;
 
@@ -27,3 +27,5 @@ int transferencia(ListaDeUsuarios *lu);
 
 void printMenu();
 
+int salvarLista(ListaDeUsuarios lu, char arquivo[]);
+int carregarLista(ListaDeUsuarios *lu, char arquivo[]);
