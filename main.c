@@ -7,21 +7,22 @@ int main() {
   char arquivo[] = "ListaDeUsuarios";
   // criando uma variavel do tipo lista de usuarios
   ListaDeUsuarios lu;
-  // carrega a lista do arquivo
+  // chamando a função que carrega o arquivo com a lista de clientes 
   cod = carregarLista(&lu, arquivo);
-  // caso o arquivo nao exista inicia a criação de um
+  // caso o arquivo nao exista é criado um
   if (cod == 1)
     lu.qtd = 0;
-  // cria uma variavel das opções
+  //variavel das opções do menu
   int opcao;
   // loop principal do programa
   do {
     // função que printa o menu
     printMenu();
     printf("Escolha uma opção: ");
+    //recebe e armazena a opção escolhida
     scanf("%d", &opcao);
 
-    // Switch case para escolher a opção do menu
+    //opções do menu e respectivos números
     switch (opcao) {
     // encerrar o programa
     case 0:
@@ -30,11 +31,11 @@ int main() {
     case 1:
       novousuario(&lu);
       break;
-    // apagar o cliente
+    // apagar cliente
     case 2:
       apagarusuario(&lu);
       break;
-    // listar os clientes
+    // listar clientes
     case 3:
       listarusuarios(lu);
       break;
@@ -54,13 +55,12 @@ int main() {
     case 7:
       transferencia(&lu);
       break;
-    // opção inválida
+    // caso um número além de 0-7 seja precionado
     default:
       printf("Opção não existe\n");
     }
-
   } while (opcao != 0);
-  // Salva a lista de usuários no arquivo binario
+  // chamando a função salvar para salvar a lista com clientes
   cod = salvarLista(lu, arquivo);
   // mensagem de erro caso a lista não seja salva
   if (cod != 0) {
