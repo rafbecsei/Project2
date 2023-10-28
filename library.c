@@ -2,7 +2,7 @@
 #include "string.h"
 #include <stdio.h>
 
-// função para buscar os dados de um cliente dentro da lista de clientes
+// FUNÇÃO BUSCAR DADOS
 int buscadados(ListaDeUsuarios lu, long cpf) {
   // define a posição inicial como 0
   int posicao = 0;
@@ -73,7 +73,7 @@ int apagarusuario(ListaDeUsuarios *lu) {
   }
   // solicita a confirmação do usuário
   int confirmacao;
-  printf("Confirme para prosseguir com a ação (Sim( 0 ) / Nao ( 1 )): ");
+  printf("\nConfirme para prosseguir com a ação (Sim( 0 ) / Nao ( 1 )): \n");
   scanf("%d", &confirmacao);
   // caso tenha a confirmação, cliente é deletado
   if (confirmacao == 0) {
@@ -85,11 +85,11 @@ int apagarusuario(ListaDeUsuarios *lu) {
     lu->qtd--;
     // caso não tenha a confirmação não deleta o cliente
   } else {
-    printf("Cliente não deletado");
+    printf("\nCliente não deletado\n");
     return 0;
   }
   // print confirmando que o cliente foi deletado
-  printf("Cliente deletado com sucesso");
+  printf("\nCliente deletado com sucesso\n");
   return 0;
 }
 
@@ -187,7 +187,7 @@ int debito(ListaDeUsuarios *lu) {
     }
     // caso o PIN esteja incorreto
   } else {
-    printf("PIN incorreto\n ");
+    printf("\nPIN incorreto\n ");
     return 0;
   }
 }
@@ -322,7 +322,7 @@ int transferencia(ListaDeUsuarios *lu) {
     }
     // aviso caso PIN esteja incorreto
   } else {
-    printf("PIN incorreto\n ");
+    printf("\nPIN incorreto\n ");
     return 0;
   }
 }
@@ -357,7 +357,7 @@ int extrato(ListaDeUsuarios *lu) {
     fclose(f);
     // caso o PIN esteja incorreto
   } else {
-    printf("PIN incorreto\n ");
+    printf("\nPIN incorreto\n ");
     return 0;
   }
   return 0;
