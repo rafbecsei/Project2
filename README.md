@@ -1,4 +1,4 @@
-# Project2 
+# Banco QuemPoupaTem em C
 
 Desenvolvimento de um programa para o projeto do novo banco "QuemPoupaTem", através da criação de um sistema bancário que permite o gerenciamento de clientes e suas operações em dois tipos de conta: Comum e Plus. O sistema opera em um loop infinito até que a opção de sair seja escolhida, apresentando um menu de opções. As principais funcionalidades incluem:
 
